@@ -1,0 +1,17 @@
+{
+  "name": "oauth-api-figma-demo",
+  "private": true,
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --experimental-modules index.js",
+    "debug": "node --experimental-modules --inspect-brk index.js"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.0",
+    "node-fetch": "^2.6.0",
+    "nunjucks": "^3.2.0"
+  }
+}
