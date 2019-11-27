@@ -1,0 +1,24 @@
+{% extends "layouts/main.njk" %}
+
+{% if user %}
+  {% block content %}
+  <div class="user">
+    <img class="user__image" src="{{ user.img_url}}" alt="Avatar of {{ img_url.handle }}" />
+    <div class="user__main">
+      <div class="user__name">{{ user.handle }}</div>
+      <div class="user__meta">{{ user.email }}</div>
+    </div>
+  </div>
+
+  <br><br>
+
+  <form action="/projects" method="GET">
+    <label>
+      <b>Team Id</b>
+      <br />
+      <input type="text" placeholder="Team Id" name="team_id" />
+    </label>
+    <button type="submit">Get Projects Of Team</button>
+  </form>
+  {% endblock %}
+{% endif %}

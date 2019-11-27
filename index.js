@@ -71,7 +71,7 @@ app.get(config.figma.redirect_pathname, async (req, res, next) => {
   req.session.tokens = tokenData;
 
   res.render('index', {
-    data: prettySerialize(tokenData)
+    debug: prettySerialize(tokenData)
   });
 });
 
@@ -100,7 +100,7 @@ app.get('/refresh', async (req, res, next) => {
   }
 
   res.render('index', {
-    data: prettySerialize(newTokenData)
+    debug: prettySerialize(newTokenData)
   });
 });
 
@@ -112,8 +112,8 @@ app.get('/me', checkToken, async (req, res, next) => {
   })
   .then(res => res.json())
 
-  res.render('index', {
-    data: prettySerialize(userData),
+  res.render('user', {
+    debug: prettySerialize(userData),
     user: userData
   });
 });
@@ -129,7 +129,7 @@ app.get('/projects/', checkToken, async (req, res, next) => {
   .then(res => res.json())
 
   res.render('index', {
-    data: prettySerialize(projectsData)
+    debug: prettySerialize(projectsData)
   });
 })
 
