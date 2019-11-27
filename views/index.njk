@@ -93,6 +93,15 @@
       <div class="user__meta">{{ user.email }}</div>
     </div>
   </div>
+
+  <form action="/projects" method="GET">
+    <label>
+      <b>Team Id</b>
+      <br />
+      <input type="text" placeholder="Team Id" name="team_id" />
+    </label>
+    <button type="submit">Get Project Of Team</button>
+  </form>
   {% endif %}
 </body>
 </html>

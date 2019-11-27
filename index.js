@@ -7,7 +7,7 @@ import session from 'express-session';
 import nunjucks from 'nunjucks';
 
 import config from './config/config.js';
-import { getRandomString, prettySerialize } from './libs/libs.js';
+import { getRandomString, prettySerialize, checkToken } from './libs/libs.js';
 
 const app = express();
 
@@ -104,18 +104,10 @@ app.get('/refresh', async (req, res, next) => {
   });
 });
 
-app.get('/me', async (req, res, next) => {
-  const { tokens } = req.session;
-  const access_token = tokens && tokens.access_token;
-
-  if (!access_token) {
-    next(new Error('No `access_token`'));
-    return;
-  }
-
+app.get('/me', checkToken, async (req, res, next) => {
   const userData = await fetch(`${config.figma.api_url}/me`, {
     headers: {
-      'Authorization': `Bearer ${access_token}`
+      'Authorization': `Bearer ${req.state.access_token}`
     }
   })
   .then(res => res.json())
@@ -125,6 +117,21 @@ app.get('/me', async (req, res, next) => {
     user: userData
   });
 });
+
+app.get('/projects/', checkToken, async (req, res, next) => {
+  const { team_id } = req.query;
+
+  const projectsData = await fetch(`${config.figma.api_url}/teams/${team_id}/projects`, {
+    headers: {
+      'Authorization': `Bearer ${req.state.access_token}`
+    }
+  })
+  .then(res => res.json())
+
+  res.render('index', {
+    data: prettySerialize(projectsData)
+  });
+})
 
 app.use((error, req, res, next) => {
   res.status(500).render('index', {
